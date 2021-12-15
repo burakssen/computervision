@@ -16,19 +16,9 @@ for i in range(frame_count):
     frames.append(frame)
 
 
-firstFrame = None
-
 for i in range(len(frames) - 1):
-    frame_gray1 = cv2.cvtColor(frames[i], cv2.COLOR_BGR2GRAY)
-    frame_gray1 = cv2.GaussianBlur(frame_gray1, (1, 1), 0)
-    frame_gray2 = cv2.cvtColor(frames[i + 1], cv2.COLOR_BGR2GRAY)
-    frame_gray2 = cv2.GaussianBlur(frame_gray2, (1, 1), 0)
+    diff = cv2.absdiff(frames[i + 1], frames[i])
+    gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 
-    frame_diff = cv2.absdiff(frame_gray2, frame_gray1)
-    thresh = cv2.threshold(frame_diff, 25, 255, cv2.THRESH_BINARY)[1]
-    #thresh = cv2.dilate(thresh, None, iterations=2)
-    cv2.imshow("Deneme", thresh)
+    cv2.imshow("Deneme", gray)
     cv2.waitKey(0)
-    # cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-    # cv2.CHAIN_APPROX_SIMPLE)
-    #cnts = imutils.grab_contours(cnts)
